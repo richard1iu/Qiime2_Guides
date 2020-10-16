@@ -1,4 +1,4 @@
-# Qiime2_SingleEnd
+# Qiime2_SingleEnd_deblur
 
 ### 1.Manifest
 ---
