@@ -19,7 +19,7 @@ qiime tools import \
 #### Demux summarize 
 ```
 qiime demux summarize \
-  --i-data paired-end-demux.qza \
+  --i-data single-end-demux.qza \
   --o-visualization single-end-demux.qzv
 ```
 
