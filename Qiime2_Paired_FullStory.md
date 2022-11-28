@@ -1,5 +1,5 @@
-## 1.import
-### 1.1 paired end
+## 1.Import reads
+### 1.1 Paired end
 ```bash
 qiime tools import --type 'SampleData[PairedEndSequencesWithQuality]' \
 --input-path all_sample.txt \
@@ -7,7 +7,7 @@ qiime tools import --type 'SampleData[PairedEndSequencesWithQuality]' \
 --input-format PairedEndFastqManifestPhred33
 ```
 
-### 1.2 single end
+### 1.2 Single end
 ```bash
 qiime tools import --type 'SampleData[SequencesWithQuality]' \
 --input-path ./xinjiang120 \
@@ -15,13 +15,13 @@ qiime tools import --type 'SampleData[SequencesWithQuality]' \
 --input-format SingleEndFastqManifestPhred33
 ```
 
-## 2.view quality
+## 2.Quality check
 ```bash
 qiime demux summarize --i-data paired-demux.qza --o-visualization paired-demux.qzv
 ```
 
-## 3.dada2
-### chimera filtering, generating ASV,rep-seqs
+## 3.Sequence filtering and cluster using Dada2
+### Chimera filtering, generating ASV and rep-seqs
 ```bash
 qiime dada2 denoise-paired --i-demultiplexed-seqs paired-end-demux.qza \
 --p-trim-left-f 0 --p-trim-left-r 0 --p-trunc-len-f 270 --p-trunc-len-r 250 \
@@ -29,7 +29,7 @@ qiime dada2 denoise-paired --i-demultiplexed-seqs paired-end-demux.qza \
 --p-n-threads 0 # all threads
 ```
 
-### stat (optianal)
+### Stat (optianal)
 ```bash
 # ASV stat
 qiime metadata tabulate --m-input-file denoising-stats.qza --o-visualization denoising-stats.qzv
@@ -41,7 +41,7 @@ qiime feature-table summarize --i-table table.qza --o-visualization table.qzv --
 qiime feature-table tabulate-seqs --i-data rep-seqs.qza --o-visualization rep-seqs.qzv
 ```
 
-## 4.tree
+## 4.Generate Tree
 ```bash
 qiime phylogeny align-to-tree-mafft-fasttree \
 --i-sequences rep-seqs.qza \
@@ -51,21 +51,21 @@ qiime phylogeny align-to-tree-mafft-fasttree \
 --o-rooted-tree rooted-tree.qza 
 ```
 
-## 5.classification
+## 5.Classification
 
-### 5.1 use other's classfier  
+### 5.1 Classifing directly using offical classfier  
 qiime feature-classifier classify-sklearn \
 --i-classifier Greengenes_13_8_99%_OTUs_341F-805R_classifier.qza \
 --i-reads rep-seqs.qza \
 --o-classification taxonomy.qza 
 
-### 5.2 train classfier with own data
+### 5.2 Train classfier with our own data
 ```bash
-# 1.download dataset (greengenes or silva) 
+# 1.Download dataset (greengenes or silva) 
 wget ftp://greengenes.microbio.me/greengenes_release/gg_13_5/gg_13_8_otus.tar.gz 
 tar -zxvf gg_13_8_otus.tar.gz 
 
-# 2.load taxonomy in dataset
+# 2.Load taxonomy in dataset
 qiime tools import \ 
   --type 'FeatureData[Taxonomy]' \ 
   --input-format HeaderlessTSVTaxonomyFormat \ 
@@ -85,7 +85,7 @@ qiime feature-classifier fit-classifier-naive-bayes \
 --i-reference-taxonomy ref-taxonomy.qza \
 --o-classifier Greengenes_13_8_99%_OTUs_341F-805R_classifier.qza 
 
-# 5.classification
+# 5.Classification
 qiime feature-classifier classify-sklearn \
 --i-classifier Greengenes_13_8_99%_OTUs_341F-805R_classifier.qza \
 --i-reads rep-seqs.qza \
