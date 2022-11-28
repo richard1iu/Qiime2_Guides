@@ -1,13 +1,14 @@
 # Qiime2Bugbase
-## 1. Input 99_otus_fasta into qiime2
-input rep_set/99_otus_fasta of gg_13_5(bugbase requires 13-5) into qiime2
+## 1. Import 99_otus_fasta into qiime2
+>Import rep_set/99_otus_fasta of gg_13_5 **(bugbase requires 13-5)** into qiime2
 ```
 qiime tools import --input-path ~/gg_13_5_otus/rep_set/99_otus.fasta --output-path gg_99_otus.qza --type FeatureData[Sequence]
 ```
 ## 2.Vsearch cluster
-input file:
-- rep-seqs-dada2.qza & table-dada2.qza output from dada2
-- gg_99_otus.qza
+>input file:
+1. rep-seqs-dada2.qza from dada2
+2. table-dada2.qza output from dada2
+3. gg_99_otus.qza from our step 1
 
 ```
 qiime vsearch cluster-features-closed-reference \
@@ -27,7 +28,7 @@ so we should
 1) extract otutab from biom (output biom of qiime2 is html format) and  
 2) change colname "OTU ID" to "taxonomy"
 ```
-# extract feature-table.biom, but its colname is "OTU ID",
+# Extract feature-table.biom
 qiime tools export \
 --input-path table-cr-99.qza \
 --output-path $PWD
