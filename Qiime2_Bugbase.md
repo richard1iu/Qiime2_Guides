@@ -5,7 +5,7 @@
 qiime tools import --input-path ~/gg_13_5_otus/rep_set/99_otus.fasta --output-path gg_99_otus.qza --type FeatureData[Sequence]
 ```
 ## 2.Vsearch cluster
->input file:
+>Input file:
 1. rep-seqs-dada2.qza from dada2
 2. table-dada2.qza output from dada2
 3. gg_99_otus.qza from our step 1
@@ -23,8 +23,8 @@ qiime vsearch cluster-features-closed-reference \
 ```
 
 ## 3.Format conversion
-input file of bugbase is biom 1.0 JSON，and the colname is "taxonomy" instead of "OTU ID"  
-so we should  
+Input file of bugbase is **biom 1.0 JSON**，and the colname should be "taxonomy" instead of "OTU ID"  
+so we need 
 1) extract otutab from biom (output biom of qiime2 is html format) and  
 2) change colname "OTU ID" to "taxonomy"
 ```
